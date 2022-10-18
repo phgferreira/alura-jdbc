@@ -5,10 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.xml.transform.Result;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,7 +46,35 @@ public class InsertTest {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            fail(e.getMessage());
         }
     }
+
+    @Test @DisplayName("Deve inserir mais de um registro")
+    void insertTest2() {
+        String script = "insert into produto (nome, descricao) values (?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(script, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result1 = insereProduto(statement, "Smart TV", "45 polegadas");
+            ResultSet result2 = insereProduto(statement, "Radio", "Radio de bolso");
+            ResultSet result3 = insereProduto(statement, "Computador", "Gabinete");
+            ResultSet result4 = insereProduto(statement, "Monitor", "13 polegadas");
+
+            // Se chegou até o final então
+            assertNotNull(result1);
+            assertNotNull(result2);
+            assertNotNull(result3);
+            assertNotNull(result4);
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    private ResultSet insereProduto(PreparedStatement statement, String nome, String descricao) throws SQLException {
+        statement.setString(1, nome);
+        statement.setString(2, descricao);
+        statement.execute();
+        return statement.getGeneratedKeys();
+    }
+
 }
