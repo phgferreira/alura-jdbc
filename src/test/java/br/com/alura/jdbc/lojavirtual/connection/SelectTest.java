@@ -16,11 +16,8 @@ public class SelectTest {
 
     @BeforeEach
     void beforeEach() {
-        String url = "jdbc:mysql://localhost/loja_virtual?userTimezone=true&serverTimezone=UTC";
-        String user = "dbauser";
-        String password = "p@ssw0rd";
         try {
-            connection = DriverManager.getConnection(url, user, password);
+            connection = new ConnectionFactory().getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
