@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ConnectionTest {
 
-    @Test @DisplayName("Deve conectar com o banco de dados MySQL")
+    @Test @DisplayName("Deve conectar com sucesso ao banco de dados")
     void cenario1() {
         String url = "jdbc:mysql://localhost/loja_virtual?userTimezone=true&serverTimezone=UTC";
         String user = "dbauser";
