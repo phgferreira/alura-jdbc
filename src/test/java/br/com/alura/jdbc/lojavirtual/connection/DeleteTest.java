@@ -5,21 +5,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class DeleteTest {
 
-    private Connection connecton;
+    private Connection connection;
 
     @BeforeEach
     void beforeEach() {
         try {
-            connecton = new ConnectionFactory().getConnection();
+            connection = new ConnectionFactory().getConnection();
+            this.insereDadosQueSeraoDeletados();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +27,7 @@ public class DeleteTest {
     @AfterEach
     void afterEach() {
         try {
-            connecton.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -38,7 +37,7 @@ public class DeleteTest {
     void deleteTest() {
         String script = "delete from produto where nome = 'Mouse' and descricao = 'Mouse sem fio'";
         try {
-            Statement statement = connecton.createStatement();
+            Statement statement = connection.createStatement();
             statement.execute(script);
             Integer linhasExcluidas = statement.getUpdateCount();
 
@@ -47,4 +46,22 @@ public class DeleteTest {
             fail(e.getMessage());
         }
     }
+
+    private void insereDadosQueSeraoDeletados() {
+        String nomeProduto = "Mouse";
+        String descricaoProduto = "Mouse sem fio";
+        String script = "insert into produto (nome, descricao) values (?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(script, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, nomeProduto);
+            statement.setString(2, descricaoProduto);
+
+            statement.execute();
+            ResultSet result = statement.getGeneratedKeys();
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
 }
