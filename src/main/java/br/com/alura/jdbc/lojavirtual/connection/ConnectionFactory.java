@@ -16,6 +16,12 @@ public class ConnectionFactory {
         return connection;
     }
 
+    public Connection getConnection(boolean autoCommit) throws SQLException {
+        connection = DriverManager.getConnection(url, user, password);
+        connection.setAutoCommit(autoCommit);
+        return connection;
+    }
+
     public void close() throws SQLException {
         if (connection == null) {
             throw new NullPointerException("Connexão não foi estabelecida anteriormente, tente usar getConnection antes");
