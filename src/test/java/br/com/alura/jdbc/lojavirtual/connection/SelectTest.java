@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SelectTest {
 
@@ -33,18 +32,16 @@ public class SelectTest {
     }
 
     @Test @DisplayName("Deve retornar uma consulta com sucesso")
-    void cenario1() {
-        String query = "select id_produto, nome, descricao from produto";
+    void selectOneTest() {
+        String query = "select id_produto, nome, descricao from produto where nome = 'Notebook'";
         try {
             Statement statement = connection.createStatement();
             statement.execute(query);
             ResultSet result = statement.getResultSet();
             while (result.next()) {
-                Integer id = result.getInt("id_produto");
                 String nome = result.getString("nome");
                 String descricao = result.getString("descricao");
 
-                assertEquals(1, id);
                 assertEquals("Notebook", nome);
                 assertEquals("Notebook Samsung", descricao);
             }
