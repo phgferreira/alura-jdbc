@@ -1,25 +1,31 @@
 package br.com.alura.jdbc.lojavirtual.connection;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    Connection connection;
+    private Connection connection;
+    private DataSource dataSource;
     private String url = "jdbc:mysql://localhost/loja_virtual?userTimezone=true&serverTimezone=UTC";
     private String user = "dbauser";
     private String password = "p@ssw0rd";
 
-    public Connection getConnection() throws SQLException {
-        connection = DriverManager.getConnection(url, user, password);
-        return connection;
+    public ConnectionFactory() {
+        ComboPooledDataSource combo = new ComboPooledDataSource();
+        combo.setJdbcUrl(url);
+        combo.setJdbcUrl(user);
+        combo.setPassword(password);
+
+        this.dataSource = combo;
     }
 
-    public Connection getConnection(boolean autoCommit) throws SQLException {
-        connection = DriverManager.getConnection(url, user, password);
-        connection.setAutoCommit(autoCommit);
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return this.dataSource.getConnection();
     }
 
     public void close() throws SQLException {
