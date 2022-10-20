@@ -16,12 +16,13 @@ public class ProdutoDAO {
     }
 
     public void salvar(Produto produto) {
-        String script = "insert into produto (nome, descricao) values (?,?)";
+        String script = "insert into produto (id_categoria, nome, descricao) values (?,?,?)";
         try {
 
             try (PreparedStatement statement = connection.prepareStatement(script, Statement.RETURN_GENERATED_KEYS)) {
-                statement.setString(1, produto.getNome());
+                statement.setInt(1, 1);
                 statement.setString(2, produto.getDescricao());
+                statement.setString(3, produto.getDescricao());
                 statement.execute();
 
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {

@@ -26,7 +26,7 @@ class CategoriaDaoTest {
         }
     }
 
-    @Test @DisplayName("Deve lista uma lista de categorias")
+    @Test @DisplayName("Deve listar categorias")
     void listTest() {
         CategoriaDao dao = new CategoriaDao(connection);
         List<Categoria> categorias = dao.lsitar();
