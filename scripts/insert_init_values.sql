@@ -1,6 +1,11 @@
 use loja_virtual;
 
-insert into produto (nome, descricao) values (
-	'Notebook', 'Notebook Samsung');
+insert into categoria (nome) values
+('Eletrônicos'),
+('Eletrodomesticos'),
+('Móveis');
 
-select * from produto;
+insert into produto (id_categoria, nome, descricao) values
+(1, 'Notebook', 'Notebook Samsung'),
+(2, 'Geladeira', 'Geladeira Azul'),
+(3, 'Cômodo', 'Cômodo Vertical');
