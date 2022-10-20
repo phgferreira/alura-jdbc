@@ -1,5 +1,6 @@
 package br.com.alura.jdbc.lojavirtual.dao;
 
+import br.com.alura.jdbc.lojavirtual.modelo.Categoria;
 import br.com.alura.jdbc.lojavirtual.modelo.Produto;
 
 import java.sql.*;
@@ -40,6 +41,28 @@ public class ProdutoDAO {
         List<Produto> produtos = new ArrayList<>();
         String query = "select id_produto, nome, descricao from produto";
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.execute();
+
+            try (ResultSet resultSet = statement.getResultSet()) {
+                while (resultSet.next())
+                    produtos.add( new Produto(
+                            resultSet.getInt("id_produto"),
+                            resultSet.getString("nome"),
+                            resultSet.getString("descricao")) );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return produtos;
+    }
+
+    public List<Produto> listarPorCategoria (Categoria categoria) {
+        List<Produto> produtos = new ArrayList<>();
+        String query = "select id_produto, nome, descricao from produto where id_categoria = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, categoria.getId());
             statement.execute();
 
             try (ResultSet resultSet = statement.getResultSet()) {
