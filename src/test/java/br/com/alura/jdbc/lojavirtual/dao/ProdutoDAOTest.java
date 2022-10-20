@@ -1,5 +1,6 @@
-package br.com.alura.jdbc.lojavirtual.connection;
+package br.com.alura.jdbc.lojavirtual.dao;
 
+import br.com.alura.jdbc.lojavirtual.connection.ConnectionFactory;
 import br.com.alura.jdbc.lojavirtual.dao.ProdutoDAO;
 import br.com.alura.jdbc.lojavirtual.modelo.Produto;
 import org.junit.jupiter.api.BeforeEach;

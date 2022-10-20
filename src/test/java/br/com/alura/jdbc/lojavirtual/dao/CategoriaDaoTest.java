@@ -1,7 +1,8 @@
-package br.com.alura.jdbc.lojavirtual.modelo;
+package br.com.alura.jdbc.lojavirtual.dao;
 
 import br.com.alura.jdbc.lojavirtual.connection.ConnectionFactory;
 import br.com.alura.jdbc.lojavirtual.dao.CategoriaDao;
+import br.com.alura.jdbc.lojavirtual.modelo.Categoria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CategoriaTest {
+class CategoriaDaoTest {
 
     private Connection connection;
 
