@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,20 +35,16 @@ class ConnectionFactoryTest {
         }
     }
 
-    @Test @DisplayName("Deve exebir excessão de conexão fechada")
-    void close() {
-        Connection connection = null;
-        try {
-            connection = factory.getConnection();
-            connection.close();
+    @Test @DisplayName("Deve abrir todos os pools de conexão")
+    void testConnectionPool() {
+        try (Connection connection = factory.getConnection()) {
 
-            // Como a conexão já foi fechada deve apresentar excessão ao executar a linha de comando abaixo
-            Statement statement = connection.createStatement();
+            for (int i = 0; i < factory.getMaxPoolConnection(); i++)
+                assertNotNull(factory.getConnection());
 
-            // Se chegou até aqui então não exibiu a excessão que deveria
-            fail("Não exibiu erro de conexão fechada");
         } catch (SQLException e) {
-            assertEquals("No operations allowed after connection closed.", e.getMessage());
+            fail(e.getMessage());
         }
     }
+
 }

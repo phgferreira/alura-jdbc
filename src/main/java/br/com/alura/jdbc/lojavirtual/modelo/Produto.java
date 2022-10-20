@@ -13,6 +13,12 @@ public class Produto {
         this.descricao = descricao;
     }
 
+    public Produto(Integer id, String nome, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return String.format("Produto [id=%d, nome=%s, descricao=%s]",
