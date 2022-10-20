@@ -34,13 +34,6 @@ public class ConnectionFactory {
         return this.dataSource.getConnection();
     }
 
-    public void close() throws SQLException {
-        if (connection == null) {
-            throw new NullPointerException("Connexão não foi estabelecida anteriormente, tente usar getConnection antes");
-        }
-        connection.close();
-    }
-
     public int getMaxPoolConnection() {
         return maxPoolConnection;
     }
