@@ -15,16 +15,22 @@ public class ConnectionFactory {
     private String user = "dbauser";
     private String password = "p@ssw0rd";
 
+    private int maxPoolConnection = 15;
+
     public ConnectionFactory() {
         ComboPooledDataSource combo = new ComboPooledDataSource();
         combo.setJdbcUrl(url);
-        combo.setJdbcUrl(user);
+        combo.setUser(user);
         combo.setPassword(password);
+
+        combo.setMaxPoolSize(maxPoolConnection);
 
         this.dataSource = combo;
     }
 
     public Connection getConnection() throws SQLException {
+//        connection = DriverManager.getConnection(url, user, password);
+//        return connection;
         return this.dataSource.getConnection();
     }
 
@@ -35,4 +41,7 @@ public class ConnectionFactory {
         connection.close();
     }
 
+    public int getMaxPoolConnection() {
+        return maxPoolConnection;
+    }
 }
